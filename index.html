@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relief Foundation - Schedule Manager</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #08120D;
+    min-height: 100vh;
+    color: #ECFDF5;
+}
+
+/* Login Screen */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.login-box {
+    background: #112018;
+    border-radius: 20px;
+    padding: 3rem;
+    border: 2px solid #4ADE80;
+    box-shadow: 0 8px 32px rgba(74, 222, 128, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-box h1 {
+    color: #D9F99D;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 20px rgba(217, 249, 157, 0.3);
+}
+
+.login-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.login-tab {
+    flex: 1;
+    padding: 0.75rem;
+    background: #08120D;
+    border: 2px solid #4ADE80;
+    border-radius: 10px;
+    color: #86EFAC;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.login-tab.active {
+    background: #4ADE80;
+    color: #08120D;
+    font-weight: bold;
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+}
+
+.login-form {
+    display: none;
+}
+
+.login-form.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #86EFAC;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #4ADE80;
+    border-radius: 10px;
+    background: #08120D;
+    color: #ECFDF5;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #D9F99D;
+    background: #112018;
+    box-shadow: 0 0 15px rgba(217, 249, 157, 0.2);
+}
+
+.form-group input::placeholder, .form-group textarea::placeholder {
+    color: #86EFAC;
+    opacity: 0.6;
+}
+
+.form-group select option {
+    background: #112018;
+    color: #ECFDF5;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #4ADE80 0%, #86EFAC 100%);
+    color: #08120D;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 25px rgba(74, 222, 128, 0.5);
+}
+
+.login-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #08120D;
+    border-radius: 10px;
+    border: 1px solid #4ADE80;
+    color: #86EFAC;
+    font-size: 0.85rem;
+}
+
+/* Main App */
+.app-container {
+    display: none;
+}
+
+.navbar {
+    background: #112018;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #4ADE80;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(74, 222, 128, 0.1);
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #D9F99D;
+    text-shadow: 0 0 20px rgba(217, 249, 157, 0.3);
+}
+
+.nav-user {
+    color: #86EFAC;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logout-btn {
+    padding: 0.5rem 1rem;
+    background: #4ADE80;
+    color: #08120D;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.logout-btn:hover {
+    background: #86EFAC;
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem 2rem;
+    background: #112018;
+    border-bottom: 1px solid #4ADE80;
+}
+
+.nav-link {
+    color: #86EFAC;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.nav-link:hover, .nav-link.active {
+    background: #4ADE80;
+    color: #08120D;
+    border-color: #4ADE80;
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.glass {
+    background: #112018;
+    border-radius: 20px;
+    padding: 2rem;
+    border: 2px solid #4ADE80;
+    box-shadow: 0 8px 32px rgba(74, 222, 128, 0.1);
+    margin-bottom: 2rem;
+}
+
+h1 {
+    color: #D9F99D;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    text-shadow: 0 0 20px rgba(217, 249, 157, 0.2);
+}
+
+h2 {
+    color: #86EFAC;
+    margin-bottom: 1rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.5));
+}
+
+.stat-info h3 {
+    font-size: 2rem;
+    color: #D9F99D;
+    margin-bottom: 0.25rem;
+}
+
+.stat-info p {
+    color: #86EFAC;
+    font-size: 0.9rem;
+}
+
+.quick-add form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+input, select, textarea {
+    padding: 0.75rem;
+    border: 2px solid #4ADE80;
+    border-radius: 10px;
+    background: #08120D;
+    color: #ECFDF5;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+textarea {
+    grid-column: 1 / -1;
+    min-height: 80px;
+    resize: vertical;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #86EFAC;
+    opacity: 0.6;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #D9F99D;
+    background: #112018;
+    box-shadow: 0 0 15px rgba(217, 249, 157, 0.2);
+}
+
+select option {
+    background: #112018;
+    color: #ECFDF5;
+}
+
+.btn-primary, .btn-secondary, .btn-danger, .btn-success, .btn-warning, .btn-info {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4ADE80 0%, #86EFAC 100%);
+    color: #08120D;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 25px rgba(74, 222, 128, 0.5);
+}
+
+.btn-secondary {
+    background: #112018;
+    color: #86EFAC;
+    border: 2px solid #4ADE80;
+}
+
+.btn-secondary:hover {
+    background: #4ADE80;
+    color: #08120D;
+}
+
+.btn-danger {
+    background: #112018;
+    color: #D9F99D;
+    border: 2px solid #D9F99D;
+}
+
+.btn-danger:hover {
+    background: #D9F99D;
+    color: #08120D;
+}
+
+.btn-success {
+    background: #4ADE80;
+    color: #08120D;
+}
+
+.btn-success:hover {
+    background: #86EFAC;
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+}
+
+.btn-warning {
+    background: #D9F99D;
+    color: #08120D;
+}
+
+.btn-warning:hover {
+    background: #86EFAC;
+}
+
+.btn-info {
+    background: #86EFAC;
+    color: #08120D;
+}
+
+.btn-info:hover {
+    background: #4ADE80;
+}
+
+.event-item {
+    background: #112018;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #4ADE80;
+    transition: all 0.3s ease;
+}
+
+.event-item:hover {
+    border-left-color: #D9F99D;
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+}
+
+.event-info h4 {
+    color: #D9F99D;
+    margin-bottom: 0.25rem;
+}
+
+.event-info p {
+    color: #86EFAC;
+    font-size: 0.9rem;
+}
+
+.event-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.staff-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.staff-card {
+    background: #112018;
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 2px solid #4ADE80;
+    transition: all 0.3s ease;
+}
+
+.staff-card:hover {
+    border-color: #D9F99D;
+    box-shadow: 0 0 25px rgba(74, 222, 128, 0.3);
+    transform: translateY(-3px);
+}
+
+.staff-card h3 {
+    color: #D9F99D;
+    margin-bottom: 0.5rem;
+}
+
+.staff-card p {
+    color: #86EFAC;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.staff-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.search-filter-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.search-filter-bar input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-filter-bar select {
+    min-width: 150px;
+}
+
+.calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.calendar-table {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+th {
+    background: #4ADE80;
+    color: #08120D;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 700;
+    border: 1px solid #08120D;
+}
+
+th.today {
+    background: #D9F99D;
+    font-weight: 900;
+    box-shadow: 0 0 20px rgba(217, 249, 157, 0.4);
+}
+
+td {
+    padding: 1rem;
+    border: 1px solid #4ADE80;
+    color: #ECFDF5;
+    vertical-align: top;
+    min-height: 80px;
+    background: #112018;
+}
+
+td.today {
+    background: rgba(217, 249, 157, 0.1);
+    border-color: #D9F99D;
+}
+
+.time-slot {
+    color: #D9F99D;
+    font-weight: 700;
+    background: #08120D;
+    text-align: center;
+}
+
+.calendar-event {
+    background: #4ADE80;
+    color: #08120D;
+    padding: 0.5rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    border-left: 3px solid #D9F99D;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.calendar-event:hover {
+    background: #86EFAC;
+    transform: translateX(3px);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
+}
+
+.calendar-event strong {
+    color: #08120D;
+}
+
+.event-location {
+    font-size: 0.75rem;
+    color: #08120D;
+    margin-top: 0.25rem;
+    opacity: 0.8;
+}
+
+.export-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.export-card {
+    text-align: center;
+}
+
+.export-card h3 {
+    color: #D9F99D;
+    margin-bottom: 1rem;
+}
+
+.export-card p {
+    color: #86EFAC;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(8, 18, 13, 0.95);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #112018;
+    border-radius: 20px;
+    padding: 2rem;
+    border: 2px solid #4ADE80;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 50px rgba(74, 222, 128, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #D9F99D;
+}
+
+.close-modal {
+    background: #4ADE80;
+    color: #08120D;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.close-modal:hover {
+    background: #86EFAC;
+}
+
+.error-message {
+    background: rgba(217, 249, 157, 0.2);
+    color: #D9F99D;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 4px solid #D9F99D;
+}
+
+/* Print Styles - Gen-Z Premium */
+@media print {
+    @page {
+        size: A4 landscape;
+        margin: 0.5cm;
+    }
+
+    body {
+        background: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .navbar, .nav-links, .logout-btn, .btn-danger, .btn-primary, .btn-secondary, 
+    .btn-warning, .btn-success, .btn-info, .login-container, .calendar-controls button,
+    .search-filter-bar {
+        display: none !important;
+    }
+
+    .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0.5cm;
+    }
+
+    .glass {
+        background: white !important;
+        border: 3px solid #4ADE80 !important;
+        box-shadow: none !important;
+        padding: 1rem !important;
+        page-break-inside: avoid;
+    }
+
+    h1 {
+        color: #08120D !important;
+        font-size: 2rem !important;
+        margin-bottom: 1rem !important;
+        text-align: center;
+    }
+
+    h2 {
+        color: #4ADE80 !important;
+        font-size: 1.3rem !important;
+        margin: 0.5rem 0 !important;
+        text-align: center;
+    }
+
+    table {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+
+    th {
+        background: #4ADE80 !important;
+        color: #08120D !important;
+        padding: 0.5rem !important;
+        font-size: 0.9rem !important;
+        border: 1px solid #08120D !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    th.today {
+        background: #D9F99D !important;
+        border: 2px solid #4ADE80 !important;
+    }
+
+    td {
+        padding: 0.5rem !important;
+        border: 1px solid #4ADE80 !important;
+        color: #08120D !important;
+        font-size: 0.75rem !important;
+        min-height: 60px !important;
+        background: white !important;
+    }
+
+    td.today {
+        background: #ECFDF5 !important;
+        border: 2px solid #4ADE80 !important;
+    }
+
+    .time-slot {
+        background: #86EFAC !important;
+        color: #08120D !important;
+        font-weight: bold !important;
+        text-align: center !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .calendar-event {
+        background: #D9F99D !important;
+        border-left: 4px solid #4ADE80 !important;
+        padding: 0.4rem !important;
+        margin-bottom: 0.3rem !important;
+        border-radius: 5px !important;
+        color: #08120D !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .calendar-event strong {
+        color: #08120D !important;
+        font-weight: bold !important;
+    }
+
+    .calendar-event small {
+        color: #08120D !important;
+        font-size: 0.7rem !important;
+    }
+
+    .event-location {
+        color: #4ADE80 !important;
+        font-size: 0.65rem !important;
+        font-weight: 700 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    #export, #staff-management, #dashboard {
+        display: none !important;
+    }
+
+    #calendar {
+        display: block !important;
+    }
+
+    .page {
+        display: none !important;
+    }
+
+    .page#calendar {
+        display: block !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-add form {
+        grid-template-columns: 1fr;
+    }
+
+    .calendar-controls {
+        flex-direction: column;
+    }
+
+    .staff-card-actions {
+        flex-direction: column;
+    }
+
+    .search-filter-bar {
+        flex-direction: column;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="login-screen">
+        <div class="login-box">
+            <h1>📅 Relief Foundation</h1>
+
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="switchLoginTab('admin')">Admin</button>
+                <button class="login-tab" onclick="switchLoginTab('staff')">Staff</button>
+            </div>
+
+            <!-- Admin Login -->
+            <form class="login-form active" id="admin-login-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="admin-username" placeholder="Enter admin username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="admin-password" placeholder="Enter admin password" required>
+                </div>
+                <button type="submit" class="login-btn">Login as Admin</button>
+                <div class="login-info">
+                    <strong>Default Admin:</strong><br>
+                    Username: admin<br>
+                    Password: admin123
+                </div>
+            </form>
+
+            <!-- Staff Login -->
+            <form class="login-form" id="staff-login-form">
+                <div class="form-group">
+                    <label>Select Your Name</label>
+                    <select id="staff-select" required>
+                        <option value="">Choose your name...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Password</label>
+                    <input type="password" id="staff-password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">Login as Staff</button>
+                <div class="login-info">
+                    Each staff member has a unique password set by admin.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Staff Modal -->
+    <div class="modal" id="edit-staff-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Staff Member</h2>
+                <button class="close-modal" onclick="closeEditStaffModal()">Close</button>
+            </div>
+            <form id="edit-staff-form">
+                <input type="hidden" id="edit-staff-id">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="edit-staff-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <input type="text" id="edit-staff-role" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="edit-staff-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="edit-staff-phone">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="edit-staff-password" required>
+                </div>
+                <div class="form-group">
+                    <label>Account Type</label>
+                    <select id="edit-staff-type" required>
+                        <option value="staff">Staff (View Only)</option>
+                        <option value="admin">Admin (Full Access)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-success" style="width: 100%;">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Event Modal -->
+    <div class="modal" id="edit-event-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Event</h2>
+                <button class="close-modal" onclick="closeEditEventModal()">Close</button>
+            </div>
+            <form id="edit-event-form">
+                <input type="hidden" id="edit-event-id">
+                <div class="form-group">
+                    <label>Event Title</label>
+                    <input type="text" id="edit-event-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="edit-event-date" required>
+                </div>
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="time" id="edit-event-time" required>
+                </div>
+                <div class="form-group">
+                    <label>Staff Member</label>
+                    <select id="edit-event-staff" required>
+                        <option value="">Select Staff</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Event Type</label>
+                    <select id="edit-event-type">
+                        <option value="Meeting">Meeting</option>
+                        <option value="Field Visit">Field Visit</option>
+                        <option value="Counseling">Counseling</option>
+                        <option value="Awareness Camp">Awareness Camp</option>
+                        <option value="Training">Training</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Location (optional)</label>
+                    <input type="text" id="edit-event-location" placeholder="Enter location">
+                </div>
+                <button type="submit" class="btn-success" style="width: 100%;">Update Event</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="main-app">
+        <nav class="navbar">
+            <div class="nav-brand">📅 Relief Foundation Scheduler</div>
+            <div class="nav-user">
+                <span id="current-user"></span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <div class="nav-links" id="nav-menu"></div>
+
+        <div class="container">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboard">
+                <h1>Dashboard Overview</h1>
+                <div class="stats-grid">
+                    <div class="stat-card glass">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-info">
+                            <h3 id="total-events">0</h3>
+                            <p>Total Events</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="total-staff">0</h3>
+                            <p>Staff Members</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass">
+                        <div class="stat-icon">📆</div>
+                        <div class="stat-info">
+                            <h3 id="this-week">0</h3>
+                            <p>This Week</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-info">
+                            <h3 id="upcoming">0</h3>
+                            <p>Upcoming</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-add glass" id="add-event-section">
+                    <h2>Quick Add Event</h2>
+                    <form id="quick-event-form">
+                        <input type="text" id="event-title" placeholder="Event title" required>
+                        <input type="date" id="event-date" required>
+                        <input type="time" id="event-time" required>
+                        <select id="event-staff" required>
+                            <option value="">Select Staff</option>
+                        </select>
+                        <select id="event-type">
+                            <option value="Meeting">Meeting</option>
+                            <option value="Field Visit">Field Visit</option>
+                            <option value="Counseling">Counseling</option>
+                            <option value="Awareness Camp">Awareness Camp</option>
+                            <option value="Training">Training</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <input type="text" id="event-location" placeholder="Location (optional)" style="grid-column: 1 / -1;">
+                        <button type="submit" class="btn-primary">Add Event</button>
+                    </form>
+                </div>
+
+                <div class="glass">
+                    <h2>Upcoming Events</h2>
+                    <div class="search-filter-bar">
+                        <input type="text" id="search-upcoming" placeholder="🔍 Search events..." onkeyup="renderUpcoming()">
+                        <select id="filter-upcoming-staff" onchange="renderUpcoming()">
+                            <option value="">All Staff</option>
+                        </select>
+                        <select id="filter-upcoming-type" onchange="renderUpcoming()">
+                            <option value="">All Types</option>
+                            <option value="Meeting">Meeting</option>
+                            <option value="Field Visit">Field Visit</option>
+                            <option value="Counseling">Counseling</option>
+                            <option value="Awareness Camp">Awareness Camp</option>
+                            <option value="Training">Training</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div id="upcoming-list"></div>
+                </div>
+            </div>
+
+            <!-- Calendar Page -->
+            <div class="page" id="calendar">
+                <h1>Relief Foundation - Weekly Schedule</h1>
+                <div class="glass">
+                    <div class="calendar-controls">
+                        <button id="prev-week" class="btn-secondary">← Previous Week</button>
+                        <button id="today-btn" class="btn-info">📅 Today</button>
+                        <h2 id="week-display" style="margin: 0;"></h2>
+                        <button id="next-week" class="btn-secondary">Next Week →</button>
+                    </div>
+                    <div class="search-filter-bar">
+                        <input type="text" id="search-calendar" placeholder="🔍 Search calendar events..." onkeyup="renderCalendar()">
+                        <select id="filter-calendar-staff" onchange="renderCalendar()">
+                            <option value="">All Staff</option>
+                        </select>
+                        <select id="filter-calendar-type" onchange="renderCalendar()">
+                            <option value="">All Types</option>
+                            <option value="Meeting">Meeting</option>
+                            <option value="Field Visit">Field Visit</option>
+                            <option value="Counseling">Counseling</option>
+                            <option value="Awareness Camp">Awareness Camp</option>
+                            <option value="Training">Training</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="calendar-table">
+                        <table id="schedule-table">
+                            <thead>
+                                <tr id="calendar-header">
+                                    <th>Time</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                    <th>Saturday</th>
+                                    <th>Sunday</th>
+                                </tr>
+                            </thead>
+                            <tbody id="schedule-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staff Management Page (Admin Only) -->
+            <div class="page" id="staff-management">
+                <h1>Staff Management</h1>
+
+                <div class="quick-add glass">
+                    <h2>Add New Staff Member</h2>
+                    <form id="add-staff-form">
+                        <input type="text" id="staff-name" placeholder="Full Name" required>
+                        <input type="text" id="staff-role" placeholder="Role/Position" required>
+                        <input type="email" id="staff-email" placeholder="Email" required>
+                        <input type="tel" id="staff-phone" placeholder="Phone Number">
+                        <input type="password" id="staff-new-password" placeholder="Set Password" required>
+                        <select id="staff-account-type" required>
+                            <option value="staff">Staff Account</option>
+                            <option value="admin">Admin Account</option>
+                        </select>
+                        <button type="submit" class="btn-primary">Add Staff Member</button>
+                    </form>
+                </div>
+
+                <div class="glass">
+                    <h2>All Staff Members</h2>
+                    <div class="staff-list" id="staff-list"></div>
+                </div>
+            </div>
+
+            <!-- Export Page -->
+            <div class="page" id="export">
+                <h1>Export & Download</h1>
+                <div class="export-grid">
+                    <div class="export-card glass">
+                        <h3>📄 Export Events CSV</h3>
+                        <p>Download all scheduled events</p>
+                        <button class="btn-primary" onclick="exportEventsCSV()">Download CSV</button>
+                    </div>
+                    <div class="export-card glass">
+                        <h3>👥 Export Staff CSV</h3>
+                        <p>Download staff contact list</p>
+                        <button class="btn-primary" onclick="exportStaffCSV()">Download CSV</button>
+                    </div>
+                    <div class="export-card glass">
+                        <h3>📋 Print Calendar</h3>
+                        <p>Print colorful weekly schedule</p>
+                        <button class="btn-primary" onclick="printCalendar()">Print Calendar</button>
+                    </div>
+                    <div class="export-card glass">
+                        <h3>💾 Backup Data</h3>
+                        <p>Download complete backup file</p>
+                        <button class="btn-primary" onclick="backupAllData()">Download Backup</button>
+                    </div>
+                    <div class="export-card glass">
+                        <h3>📥 Restore Backup</h3>
+                        <p>Load data from backup file</p>
+                        <input type="file" id="restore-file" accept=".json" style="display: none;" onchange="restoreBackup()">
+                        <button class="btn-success" onclick="document.getElementById('restore-file').click()">Restore Backup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+// Global Variables
+let currentUser = null;
+let userRole = null;
+let currentUserType = null;
+let events = [];
+let staff = [];
+let currentWeekStart = getMonday(new Date());
+
+// Initialize App
+function initApp() {
+    loadFromLocalStorage();
+    initializeDefaultStaff();
+    updateStaffSelects();
+}
+
+// Initialize Default Staff
+function initializeDefaultStaff() {
+    if (!localStorage.getItem('staff') || staff.length === 0) {
+        staff = [
+            { id: 1, name: 'Dr. Sharma', role: 'Medical Officer', email: 'sharma@relief.org', phone: '9876543210', password: 'sharma123', type: 'staff' },
+            { id: 2, name: 'Priya Desai', role: 'Counselor', email: 'priya@relief.org', phone: '9876543211', password: 'priya123', type: 'staff' },
+            { id: 3, name: 'Rajesh Kumar', role: 'Field Coordinator', email: 'rajesh@relief.org', phone: '9876543212', password: 'rajesh123', type: 'staff' },
+            { id: 4, name: 'Anita Patil', role: 'Outreach Worker', email: 'anita@relief.org', phone: '9876543213', password: 'anita123', type: 'staff' }
+        ];
+        saveToLocalStorage();
+    }
+}
+
+// Utility Functions
+function getMonday(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(d.setDate(diff));
+}
+
+function formatDate(date) {
+    return date.toISOString().split('T')[0];
+}
+
+function formatTime(time) {
+    return time.substring(0, 5);
+}
+
+function isToday(date) {
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
+           date.getFullYear() === today.getFullYear();
+}
+
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+// Login Functions
+function switchLoginTab(tab) {
+    document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
+
+    if (tab === 'admin') {
+        document.querySelectorAll('.login-tab')[0].classList.add('active');
+        document.getElementById('admin-login-form').classList.add('active');
+    } else {
+        document.querySelectorAll('.login-tab')[1].classList.add('active');
+        document.getElementById('staff-login-form').classList.add('active');
+    }
+}
+
+document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const username = document.getElementById('admin-username').value;
+    const password = document.getElementById('admin-password').value;
+
+    if (username === 'admin' && password === 'admin123') {
+        login('Admin', 'admin', 'admin');
+    } else {
+        alert('Invalid admin credentials!');
+    }
+});
+
+document.getElementById('staff-login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const staffName = document.getElementById('staff-select').value;
+    const password = document.getElementById('staff-password').value;
+
+    if (!staffName) {
+        alert('Please select your name');
+        return;
+    }
+
+    const staffMember = staff.find(s => s.name === staffName);
+
+    if (staffMember && staffMember.password === password) {
+        login(staffName, 'staff', staffMember.type || 'staff');
+    } else {
+        alert('Invalid password!');
+    }
+});
+
+function login(user, role, userType) {
+    currentUser = user;
+    userRole = role;
+    currentUserType = userType;
+
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-app').style.display = 'block';
+    document.getElementById('current-user').textContent = `👤 ${user} (${userType})`;
+
+    setupNavigation();
+    updateUI();
+}
+
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        currentUser = null;
+        userRole = null;
+        currentUserType = null;
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('main-app').style.display = 'none';
+
+        document.getElementById('admin-login-form').reset();
+        document.getElementById('staff-login-form').reset();
+    }
+}
+
+function setupNavigation() {
+    const navMenu = document.getElementById('nav-menu');
+
+    if (currentUserType === 'admin') {
+        navMenu.innerHTML = `
+            <a class="nav-link active" data-page="dashboard">Dashboard</a>
+            <a class="nav-link" data-page="calendar">Calendar</a>
+            <a class="nav-link" data-page="staff-management">Staff Management</a>
+            <a class="nav-link" data-page="export">Export</a>
+        `;
+        document.getElementById('add-event-section').style.display = 'block';
+    } else {
+        navMenu.innerHTML = `
+            <a class="nav-link active" data-page="dashboard">Dashboard</a>
+            <a class="nav-link" data-page="calendar">Calendar</a>
+        `;
+        document.getElementById('add-event-section').style.display = 'none';
+    }
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+            this.classList.add('active');
+            const page = this.getAttribute('data-page');
+            document.getElementById(page).classList.add('active');
+        });
+    });
+}
+
+// Staff Management
+document.getElementById('add-staff-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('staff-email').value;
+    if (!validateEmail(email)) {
+        alert('Please enter a valid email address!');
+        return;
+    }
+
+    const newStaff = {
+        id: Date.now(),
+        name: document.getElementById('staff-name').value,
+        role: document.getElementById('staff-role').value,
+        email: email,
+        phone: document.getElementById('staff-phone').value,
+        password: document.getElementById('staff-new-password').value,
+        type: document.getElementById('staff-account-type').value
+    };
+
+    staff.push(newStaff);
+    saveToLocalStorage();
+    updateUI();
+    this.reset();
+    alert('Staff member added successfully!');
+});
+
+function openEditStaffModal(id) {
+    const staffMember = staff.find(s => s.id === id);
+    if (!staffMember) return;
+
+    document.getElementById('edit-staff-id').value = staffMember.id;
+    document.getElementById('edit-staff-name').value = staffMember.name;
+    document.getElementById('edit-staff-role').value = staffMember.role;
+    document.getElementById('edit-staff-email').value = staffMember.email;
+    document.getElementById('edit-staff-phone').value = staffMember.phone || '';
+    document.getElementById('edit-staff-password').value = staffMember.password;
+    document.getElementById('edit-staff-type').value = staffMember.type || 'staff';
+
+    // Update edit event staff select
+    updateEditEventStaffSelect();
+
+    document.getElementById('edit-staff-modal').classList.add('active');
+}
+
+function closeEditStaffModal() {
+    document.getElementById('edit-staff-modal').classList.remove('active');
+}
+
+document.getElementById('edit-staff-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('edit-staff-email').value;
+    if (!validateEmail(email)) {
+        alert('Please enter a valid email address!');
+        return;
+    }
+
+    const id = parseInt(document.getElementById('edit-staff-id').value);
+    const staffIndex = staff.findIndex(s => s.id === id);
+
+    if (staffIndex !== -1) {
+        const oldName = staff[staffIndex].name;
+        const newName = document.getElementById('edit-staff-name').value;
+
+        staff[staffIndex] = {
+            id: id,
+            name: newName,
+            role: document.getElementById('edit-staff-role').value,
+            email: email,
+            phone: document.getElementById('edit-staff-phone').value,
+            password: document.getElementById('edit-staff-password').value,
+            type: document.getElementById('edit-staff-type').value
+        };
+
+        // Update events if name changed
+        if (oldName !== newName) {
+            events.forEach(e => {
+                if (e.staff === oldName) {
+                    e.staff = newName;
+                }
+            });
+        }
+
+        saveToLocalStorage();
+        updateUI();
+        closeEditStaffModal();
+        alert('Staff updated successfully!');
+    }
+});
+
+function deleteStaff(id) {
+    const staffMember = staff.find(s => s.id === id);
+    if (confirm(`Are you sure you want to remove ${staffMember.name}? All their events will also be deleted.`)) {
+        events = events.filter(e => e.staff !== staffMember.name);
+        staff = staff.filter(s => s.id !== id);
+        saveToLocalStorage();
+        updateUI();
+        alert('Staff member removed successfully!');
+    }
+}
+
+function renderStaffList() {
+    const list = document.getElementById('staff-list');
+
+    if (staff.length === 0) {
+        list.innerHTML = '<p style="color: rgba(255,255,255,0.7); text-align: center;">No staff members added yet</p>';
+        return;
+    }
+
+    list.innerHTML = staff.map(s => `
+        <div class="staff-card">
+            <h3>👤 ${s.name}</h3>
+            <p><strong>Role:</strong> ${s.role}</p>
+            <p><strong>Email:</strong> ${s.email}</p>
+            <p><strong>Phone:</strong> ${s.phone || 'N/A'}</p>
+            <p><strong>Password:</strong> ${s.password}</p>
+            <p><strong>Type:</strong> <span style="color: ${s.type === 'admin' ? '#ffc107' : '#87ff6c'}; font-weight: bold;">${s.type || 'staff'}</span></p>
+            <div class="staff-card-actions">
+                <button class="btn-warning" onclick="openEditStaffModal(${s.id})">Edit</button>
+                <button class="btn-danger" onclick="deleteStaff(${s.id})">Remove</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function updateStaffSelects() {
+    const selects = ['event-staff', 'staff-select', 'filter-upcoming-staff', 'filter-calendar-staff'];
+
+    selects.forEach(selectId => {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+
+        const currentValue = select.value;
+
+        const options = staff.map(s => 
+            `<option value="${s.name}">${s.name} - ${s.role}</option>`
+        ).join('');
+
+        if (selectId === 'event-staff') {
+            select.innerHTML = '<option value="">Select Staff</option>' + options;
+        } else if (selectId === 'staff-select') {
+            select.innerHTML = '<option value="">Choose your name...</option>' + options;
+        } else if (selectId.startsWith('filter-')) {
+            select.innerHTML = '<option value="">All Staff</option>' + options;
+        }
+
+        if (currentValue) {
+            select.value = currentValue;
+        }
+    });
+}
+
+function updateEditEventStaffSelect() {
+    const select = document.getElementById('edit-event-staff');
+    if (!select) return;
+
+    const currentValue = select.value;
+    const options = staff.map(s => 
+        `<option value="${s.name}">${s.name} - ${s.role}</option>`
+    ).join('');
+
+    select.innerHTML = '<option value="">Select Staff</option>' + options;
+
+    if (currentValue) {
+        select.value = currentValue;
+    }
+}
+
+// Event Management
+document.getElementById('quick-event-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const title = document.getElementById('event-title').value;
+    const date = document.getElementById('event-date').value;
+    const time = document.getElementById('event-time').value;
+    const staffName = document.getElementById('event-staff').value;
+    const type = document.getElementById('event-type').value;
+    const location = document.getElementById('event-location').value;
+
+    events.push({ 
+        id: Date.now(), 
+        title, 
+        date, 
+        time, 
+        staff: staffName, 
+        type,
+        location: location || ''
+    });
+
+    saveToLocalStorage();
+    updateUI();
+    this.reset();
+    alert('Event added successfully!');
+});
+
+function openEditEventModal(id) {
+    const event = events.find(e => e.id === id);
+    if (!event) return;
+
+    document.getElementById('edit-event-id').value = event.id;
+    document.getElementById('edit-event-title').value = event.title;
+    document.getElementById('edit-event-date').value = event.date;
+    document.getElementById('edit-event-time').value = event.time;
+    document.getElementById('edit-event-type').value = event.type;
+    document.getElementById('edit-event-location').value = event.location || '';
+
+    updateEditEventStaffSelect();
+    document.getElementById('edit-event-staff').value = event.staff;
+
+    document.getElementById('edit-event-modal').classList.add('active');
+}
+
+function closeEditEventModal() {
+    document.getElementById('edit-event-modal').classList.remove('active');
+}
+
+document.getElementById('edit-event-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const id = parseInt(document.getElementById('edit-event-id').value);
+    const eventIndex = events.findIndex(e => e.id === id);
+
+    if (eventIndex !== -1) {
+        events[eventIndex] = {
+            id: id,
+            title: document.getElementById('edit-event-title').value,
+            date: document.getElementById('edit-event-date').value,
+            time: document.getElementById('edit-event-time').value,
+            staff: document.getElementById('edit-event-staff').value,
+            type: document.getElementById('edit-event-type').value,
+            location: document.getElementById('edit-event-location').value || ''
+        };
+
+        saveToLocalStorage();
+        updateUI();
+        closeEditEventModal();
+        alert('Event updated successfully!');
+    }
+});
+
+function deleteEvent(id) {
+    const event = events.find(e => e.id === id);
+    if (confirm(`Delete event:\n"${event.title}"\nDate: ${new Date(event.date).toLocaleDateString('en-IN')} at ${formatTime(event.time)}\nStaff: ${event.staff}`)) {
+        events = events.filter(e => e.id !== id);
+        saveToLocalStorage();
+        updateUI();
+        alert('Event deleted successfully!');
+    }
+}
+
+function updateStats() {
+    let totalEvents, thisWeek, upcoming;
+
+    if (currentUserType === 'admin') {
+        totalEvents = events.length;
+    } else {
+        totalEvents = events.filter(e => e.staff === currentUser).length;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const weekEnd = new Date(currentWeekStart);
+    weekEnd.setDate(weekEnd.getDate() + 7);
+
+    const filteredEvents = currentUserType === 'admin' 
+        ? events 
+        : events.filter(e => e.staff === currentUser);
+
+    thisWeek = filteredEvents.filter(e => {
+        const eventDate = new Date(e.date);
+        return eventDate >= currentWeekStart && eventDate < weekEnd;
+    }).length;
+
+    upcoming = filteredEvents.filter(e => new Date(e.date) >= today).length;
+
+    document.getElementById('total-events').textContent = totalEvents;
+    document.getElementById('total-staff').textContent = staff.length;
+    document.getElementById('this-week').textContent = thisWeek;
+    document.getElementById('upcoming').textContent = upcoming;
+}
+
+function renderUpcoming() {
+    const list = document.getElementById('upcoming-list');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const searchTerm = document.getElementById('search-upcoming').value.toLowerCase();
+    const filterStaff = document.getElementById('filter-upcoming-staff').value;
+    const filterType = document.getElementById('filter-upcoming-type').value;
+
+    let filteredEvents = events.filter(e => new Date(e.date) >= today);
+
+    if (currentUserType === 'staff') {
+        filteredEvents = filteredEvents.filter(e => e.staff === currentUser);
+    }
+
+    // Apply search and filters
+    filteredEvents = filteredEvents.filter(e => {
+        const matchSearch = e.title.toLowerCase().includes(searchTerm) || 
+                          (e.location && e.location.toLowerCase().includes(searchTerm));
+        const matchStaff = !filterStaff || e.staff === filterStaff;
+        const matchType = !filterType || e.type === filterType;
+        return matchSearch && matchStaff && matchType;
+    });
+
+    const upcomingEvents = filteredEvents
+        .sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time))
+        .slice(0, 20);
+
+    if (upcomingEvents.length === 0) {
+        list.innerHTML = '<p style="color: rgba(255,255,255,0.7)">No upcoming events found</p>';
+        return;
+    }
+
+    list.innerHTML = upcomingEvents.map(e => `
+        <div class="event-item">
+            <div class="event-info">
+                <h4>${e.title}</h4>
+                <p>📅 ${new Date(e.date).toLocaleDateString('en-IN', {day: 'numeric', month: 'short', year: 'numeric'})} at ${formatTime(e.time)} | 👤 ${e.staff} | 📌 ${e.type}${e.location ? ' | 📍 ' + e.location : ''}</p>
+            </div>
+            ${currentUserType === 'admin' ? `
+            <div class="event-actions">
+                <button class="btn-warning" onclick="openEditEventModal(${e.id})">Edit</button>
+                <button class="btn-danger" onclick="deleteEvent(${e.id})">Delete</button>
+            </div>
+            ` : ''}
+        </div>
+    `).join('');
+}
+
+function renderCalendar() {
+    const tbody = document.getElementById('schedule-body');
+    const headerRow = document.getElementById('calendar-header');
+    const weekDates = [];
+
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(currentWeekStart);
+        date.setDate(date.getDate() + i);
+        weekDates.push(date);
+    }
+
+    const weekDisplay = document.getElementById('week-display');
+    weekDisplay.textContent = `${weekDates[0].toLocaleDateString('en-IN', {day: 'numeric', month: 'short'})} - ${weekDates[6].toLocaleDateString('en-IN', {day: 'numeric', month: 'short', year: 'numeric'})}`;
+
+    // Update header with today highlighting
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    headerRow.innerHTML = '<th>Time</th>' + weekDates.map((date, i) => 
+        `<th class="${isToday(date) ? 'today' : ''}">${dayNames[i]}<br><small>${date.getDate()}/${date.getMonth()+1}</small></th>`
+    ).join('');
+
+    // Get search and filter values
+    const searchTerm = document.getElementById('search-calendar').value.toLowerCase();
+    const filterStaff = document.getElementById('filter-calendar-staff').value;
+    const filterType = document.getElementById('filter-calendar-type').value;
+
+    // Extended time slots from 7 AM to 10 PM
+    const timeSlots = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+
+    tbody.innerHTML = timeSlots.map(slot => {
+        const cells = weekDates.map(date => {
+            const dateStr = formatDate(date);
+            let dayEvents = events.filter(e => {
+                const eventHour = parseInt(e.time.substring(0, 2));
+                const slotHour = parseInt(slot.substring(0, 2));
+                return e.date === dateStr && eventHour === slotHour;
+            });
+
+            // Apply search and filters
+            dayEvents = dayEvents.filter(e => {
+                const matchSearch = e.title.toLowerCase().includes(searchTerm) || 
+                                  (e.location && e.location.toLowerCase().includes(searchTerm));
+                const matchStaff = !filterStaff || e.staff === filterStaff;
+                const matchType = !filterType || e.type === filterType;
+                return matchSearch && matchStaff && matchType;
+            });
+
+            return `<td class="${isToday(date) ? 'today' : ''}">${dayEvents.map(e => `
+                <div class="calendar-event" onclick="${currentUserType === 'admin' ? `openEditEventModal(${e.id})` : ''}">
+                    <strong>${e.title}</strong><br>
+                    <small>${e.staff} - ${formatTime(e.time)}</small>
+                    ${e.location ? `<div class="event-location">📍 ${e.location}</div>` : ''}
+                </div>
+            `).join('')}</td>`;
+        }).join('');
+
+        return `<tr><td class="time-slot">${slot}</td>${cells}</tr>`;
+    }).join('');
+}
+
+// Export Functions
+function exportEventsCSV() {
+    if (events.length === 0) {
+        alert('No events to export!');
+        return;
+    }
+
+    let csvContent = 'Title,Date,Time,Staff,Type,Location\n';
+
+    events.forEach(e => {
+        csvContent += `"${e.title}","${e.date}","${e.time}","${e.staff}","${e.type}","${e.location || ''}"\n`;
+    });
+
+    downloadFile(csvContent, 'relief_foundation_events.csv', 'text/csv');
+    alert('Events CSV downloaded successfully!');
+}
+
+function exportStaffCSV() {
+    if (staff.length === 0) {
+        alert('No staff to export!');
+        return;
+    }
+
+    let csvContent = 'Name,Role,Email,Phone,Password,Type\n';
+
+    staff.forEach(s => {
+        csvContent += `"${s.name}","${s.role}","${s.email}","${s.phone || ''}","${s.password}","${s.type || 'staff'}"\n`;
+    });
+
+    downloadFile(csvContent, 'relief_foundation_staff.csv', 'text/csv');
+    alert('Staff CSV downloaded successfully!');
+}
+
+function backupAllData() {
+    const backup = {
+        events: events,
+        staff: staff,
+        exportDate: new Date().toISOString(),
+        version: '4.0'
+    };
+
+    const json = JSON.stringify(backup, null, 2);
+    downloadFile(json, `relief_backup_${new Date().toISOString().split('T')[0]}.json`, 'application/json');
+    alert('Backup downloaded successfully!');
+}
+
+function restoreBackup() {
+    const file = document.getElementById('restore-file').files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const backup = JSON.parse(e.target.result);
+
+            if (confirm(`Restore backup from ${new Date(backup.exportDate).toLocaleDateString()}?\nThis will replace all current data!`)) {
+                events = backup.events || [];
+                staff = backup.staff || [];
+                saveToLocalStorage();
+                updateUI();
+                alert('Backup restored successfully!');
+                document.getElementById('restore-file').value = '';
+            }
+        } catch (err) {
+            alert('Error loading backup file! Please check the file format.');
+        }
+    };
+    reader.readAsText(file);
+}
+
+function downloadFile(content, filename, type) {
+    const blob = new Blob([content], { type: type });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+}
+
+function printCalendar() {
+    // Switch to calendar page before printing
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('calendar').classList.add('active');
+
+    setTimeout(() => {
+        window.print();
+    }, 200);
+}
+
+// Calendar Navigation
+document.getElementById('prev-week').addEventListener('click', function() {
+    currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+    renderCalendar();
+});
+
+document.getElementById('next-week').addEventListener('click', function() {
+    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+    renderCalendar();
+});
+
+document.getElementById('today-btn').addEventListener('click', function() {
+    currentWeekStart = getMonday(new Date());
+    renderCalendar();
+});
+
+// Storage Functions
+function saveToLocalStorage() {
+    localStorage.setItem('scheduleEvents', JSON.stringify(events));
+    localStorage.setItem('staff', JSON.stringify(staff));
+}
+
+function loadFromLocalStorage() {
+    const savedEvents = localStorage.getItem('scheduleEvents');
+    const savedStaff = localStorage.getItem('staff');
+
+    if (savedEvents) {
+        try {
+            events = JSON.parse(savedEvents);
+        } catch(e) {
+            events = [];
+        }
+    }
+
+    if (savedStaff) {
+        try {
+            staff = JSON.parse(savedStaff);
+        } catch(e) {
+            staff = [];
+        }
+    }
+}
+
+function updateUI() {
+    updateStats();
+    renderUpcoming();
+    renderCalendar();
+    updateStaffSelects();
+
+    if (currentUserType === 'admin') {
+        renderStaffList();
+    }
+}
+
+// Initialize on Load
+initApp();
+    </script>
+</body>
+</html>
